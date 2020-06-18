@@ -11,22 +11,19 @@ Preview: https://repl.it/@IghoiseO/Confetti-Party#index.html
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Confetti Party</title>
+    <title>Personal Website</title>
   </head>
   <style>
     body{
       padding: 0;
       margin: 0;
       overflow: hidden;
-      cursor: pointer;
+      text-align: center;
     }
     p{
-      position: absolute;
-      font: 5vh Arial Black;
-      margin-left: 35vw;
-      margin-top: 45vh;
-      User-select: none;
-      animation: flash 1s ease-in-out alternate infinite;
+      font: 10vh Arial Black;
+      user-select: none;
+      animation: flash 10s ease-in-out alternate infinite;
     }
     @keyframes flash{
       from{opacity: 100}
@@ -34,153 +31,11 @@ Preview: https://repl.it/@IghoiseO/Confetti-Party#index.html
     }
   </style>
   <body>
-    <audio id = "partyHorn">
-      <source src = "PartyHorn.mp3"> 
-    </audio>
-    <p id = "prompt">Click The Screen</p>
-    <!--Processing JS Library-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
+    <p id = "prompt">Coming Soon</p>
+    <!--Bootstrap-->
+    <!--React-->
+    <!--Sass-->
     <!--Jquery-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!--Javascript-->
-    <script>
-      //The program heavily relies on screen width so I save them in thes variables
-      let canvasWidth = window.innerWidth;
-      let canvasHeight = window.innerHeight;
-
-      //This confetti variable stores an array of confetti objects which are updated once per second
-      let confetti = [];
-
-      //This variable is the number of confetti that can be shown on a device to avoid crashing (Yes, it can crash)
-      let numConfetti = 500;
-
-      //These variables are the max and min size of a confetti piece
-      let maxSize = canvasHeight/80;
-      let minSize = canvasHeight/200;
-
-      //These variables store the max and min dropping speed of the confetti
-      let maxDropSpeed = 17.5;
-      let minDropSpeed = 5;
-
-      //These variables creates the quick rising effect otherwise the confetti would only drop
-      let minPopup = 20;
-      let maxPopup = 27.5;
-
-      //This variable controls how fast the confetti spreads apart
-      let spread = 15;
-      
-      //This variable controls how where the confetti are deleted from the bottom of the screen
-      let deletePoint = 0;
-      
-      //This variable simply prevents errors from occuring 
-      let startRun = false;
-
-      //This variable is just being initialized but it stores the number of deleted confetti pieces
-      let blanks = 0;
-
-      //Changes the background color
-      r = Math.random()*225;
-      g = Math.random()*175;
-      b = Math.random()*125 + 100;
-
-      //A variable tha determines the amount of confetti wiggle
-      noise_num = 0
-
-      //When the window is clicked the Confetti Function is ran
-      $(window).click(function() {
-        //When the user first click the confetti starts updating
-        startRun = true;
-
-        //Whenever confetti pieces are deleted, more space is added in the confetti array for new ones and the value must be reset
-        numConfetti += blanks;
-        blanks = 0;
-
-        if (confetti.length < numConfetti) {
-          $("#prompt").hide()
-          //Plays the party horn sound
-          $("#partyHorn")
-            .trigger("play")
-            .prop("volume", 1)
-          
-          r = Math.random()*225;
-          g = Math.random()*175;
-          b = Math.random()*125 + 100;
-
-          //This variable stores the position on the x axis which the confetti will come from
-          confettiPosition = mouseX;
-          //These variables set a random amount of confetti pop
-          popup = -(Math.random()*(maxPopup-minPopup) + minPopup);
-          popupDecrease = Math.random()/4 + 0.1;
-        }
-
-        //Only sprays confetti until the limit has been reached
-        while (confetti.length < numConfetti) {
-          confetti.push(new confetti_pieces);
-        }
-      })
-
-      //This is the object that is being refered to in the above statement
-      function confetti_pieces() {
-        //Sets the confetti's x position
-        this.x = confettiPosition;
-        //Sets the confetti's y position
-        this.y = canvasHeight + deletePoint;
-        //Sets the confetti's size
-        this.size = Math.random()*(maxSize - minSize) + minSize;
-        //Sets the confetti's falling rate
-        this.gravity = (Math.random() * (maxDropSpeed - minDropSpeed)) + minDropSpeed;
-        //Sets the confetti's spread rate
-        this.sway = Math.random()*spread - (spread/2);
-        //Sets the confetti's randomly chosen color
-        this.color = randomColor();
-        function randomColor() {
-          let colors = ['red', 'gold', 'orange', 'lime', 'blue', 'violet'];
-          return colors[Math.floor(Math.random() * colors.length)];
-        }
-      }
-
-      //This is a p5.js function where I can call p5.js commands
-      function setup() {
-        //In p5.js, this function removes the default outline of objects
-        noStroke();
-
-        //This p5.js function creates a canvas for me to draw my confetti on
-        createCanvas(canvasWidth, canvasHeight);
-      }
-
-      function draw() {
-        background(r, g, b, 100);
-          //This loops through each confetti and draws them on the page based on their new location 
-        //When the user has clicked the following code runs
-        if (startRun == true) {
-          //Sets the background color
-          background(r, g, b, 100);
-          //This loops through each confetti and draws them on the page based on their new location 
-          for(let i = 0; i < numConfetti; i++){
-            let p = confetti[i];
-            if(confetti[i] !== ""){
-              fill(p.color);
-              rect(p.x, p.y, p.size/4, p.size);
-            }
-          }
-          //The update function is called, it updates each confetti's location
-          (function update() {
-            //The following is just a bunch of math that makes the confetti look relatively real
-            noise_num += 0.05;
-            for(let i = 0; i < numConfetti; i++){
-              let p = confetti[i];
-              if (p.y > canvasHeight + deletePoint|| p.x > canvasWidth || p.x < 0){
-                confetti[i] = "";
-                blanks += 1;
-              }
-              p.x += noise(i + noise_num) * p.sway;
-              p.y += popup + p.gravity;
-            }
-            popup += popupDecrease;
-          })();
-        }
-      }
-      
-    </script>
   </body>
 </html>
