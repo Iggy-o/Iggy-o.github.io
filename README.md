@@ -1,6 +1,6 @@
 # Personal Website
 
-Use stylish fonts, eye-catching designs, <nav> for navbar, Don't change css positioning (follow the flow), use <h1> <h2> <p>, se classes not IDs, use Flexbox (or CssGrid), use margins and padding
+Use stylish fonts, eye-catching designs, <nav> for navbar, Don't change css positioning (follow the flow), use h1 h2 p, se classes not IDs, use Flexbox (or CssGrid), use margins and padding
   
 A showcase for my most recent projects built entirely by me
 
